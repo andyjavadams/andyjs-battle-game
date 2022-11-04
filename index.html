@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KALAHKAN LORD ANDY</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="waduh.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Kalahkan Lord Andy</h1>
+    </header>
+    <div id="game">
+      <section id="lord" class="container">
+        <h2>Darah Lord</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="darahLordBar"></div>
+        </div>
+      </section>
+      <section id="kamu" class="container">
+        <h2>Darah Kamu</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="darahLawanBar"></div>
+        </div>
+      </section>
+      <section class="container" v-if="pemenang">
+        <h2>Game selesai!</h2>
+        <h3 v-if="pemenang === 'kamu'">Kamu hoki!</h3>
+        <h3 v-else-if="pemenang === 'lord'">Kamu kalah! kalo nup ga usah main</h3>
+        <h3 v-else>Kamu seri!</h3>
+        <button @click="startGame">Ulangin ah!</button>
+      </section>
+      <section id="controls" v-else>
+        <button @click="kamuAttack">BASIC ATTACK</button>
+        <button :disabled="mayUseSpecialAtt" @click="specialAttack">
+          SPECIAL ATTACK
+        </button>
+        <button @click="kamuHeal">TAMBAH DARAH</button>
+        <button @click="nyerah">MENYERAH:v</button>
+      </section>
+      <section id="log" class="container">
+        <h2>History Logs</h2>
+        <ul>
+          <li v-for="message in logMessages">
+            <span
+              :class="{'log--kamu' : message.actionBy === 'kamu','log--lord' : message.actionBy === 'lord'}"
+              >{{ message.actionBy === 'kamu'? "kamu " : "lord " }}</span
+            >
+            <span v-if="message.actionType === 'heal'"
+              >Tambah darah sebanyak
+              <span class="log--heal">{{ message.actionValue }}</span>
+            </span>
+            <span v-else
+              >Mengirim demage sebanyak
+              <span class="log--damage"> {{ message.actionValue }} </span>
+            </span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
